@@ -10,12 +10,12 @@ public class Database_Implementation {
         this.database = data_base;
         try (Statement state = database.getConnection().createStatement()) { //получаем соединение с БД создаем statement
             try {
-                state.executeUpdate(cleanTable("goods")); //конструктор попытается очитить таблицу перед началом работы
+                state.executeUpdate(cleanTable("shop.goods")); //конструктор попытается очитить таблицу перед началом работы
             } catch (SQLSyntaxErrorException ex) {
-                state.executeUpdate(createTable("goods")); //если такой таблицы нет - создадим ее
+                state.executeUpdate(createTable("shop.goods")); //если такой таблицы нет - создадим ее
             }
             for (int i = 1; i < countOfProducts + 1; ++i) {
-                addItem("товар" + i, 1 + (Math.random() * 100)); //после очистки или созданяи таблицы заполняем товарами,
+                addItem("товар" + i, 1 + (int) (Math.random() * 100)); //после очистки или созданяи таблицы заполняем товарами,
             }                                                          //  число которых пользователь предоставил
         } catch (SQLException ex) {
             ex.printStackTrace();   //выводит в System.err ошибки и исключения
@@ -24,7 +24,7 @@ public class Database_Implementation {
 
     }
 
-    private void addItem(String title, double price) {
+    public void addItem(String title, double price) {
         //проверка, есть ли такой же товар
         String select_query = "SELECT title FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(select_query)) { //устанавливаем соединение и передаем запрос в метод для подстановки значений
@@ -49,7 +49,7 @@ public class Database_Implementation {
         }
     }
 
-    private void deleteItem(String title) {
+    public void deleteItem(String title) {
         String query = "DELETE FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setString(1, title);
@@ -59,7 +59,7 @@ public class Database_Implementation {
         }
     }
 
-    private void showItems() {
+    public void showItems() {
         String query = "SELECT * FROM shop.goods";
         try (Statement statement = database.getConnection().createStatement()) {
             ResultSet output = statement.executeQuery(query);
@@ -72,18 +72,26 @@ public class Database_Implementation {
         }
     }
 
-    private void showPrice(String title) {
+    public void showPrice(String title) {
         String query = "SELECT COST FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setString(1, title);
             ResultSet result = state.executeQuery(query);
-            System.out.println(result);
+            if (result.next()){
+                int price = result.getInt("cost");
+                System.out.println(price);
+            }
+         else
+            {
+            System.out.println("Товар отсутствует");
+        }
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    private void changePrice(String title, double newCost) {
+    public void changePrice(String title, double newCost) {
         String query = "UPDATE shop.goods SET cost=? WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setDouble(1, newCost);
@@ -96,8 +104,8 @@ public class Database_Implementation {
 
     }
 
-    private void filter(double fromPrice, double toPrice){
-        String query = "SELECT * FROM shop.goods WHERE cost BETWEEN ? AND ?";
+    public void filter(double fromPrice, double toPrice){
+        String query = "SELECT * FROM shop.goods WHERE cost BETWEEN ? AND ? ";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)){
             state.setDouble(1, fromPrice);
             state.setDouble(2, toPrice);
