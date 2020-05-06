@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите число товаров");
+        scanner.useLocale(Locale.US);
         int num = scanner.nextInt();
         try {
             if (num <= 0) {

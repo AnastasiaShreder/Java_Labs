@@ -73,10 +73,10 @@ public class Database_Implementation {
     }
 
     public void showPrice(String title) {
-        String query = "SELECT COST FROM shop.goods WHERE title=?";
+        String query = "SELECT cost FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setString(1, title);
-            ResultSet result = state.executeQuery(query);
+            ResultSet result = state.executeQuery();
             if (result.next()){
                 int price = result.getInt("cost");
                 System.out.println(price);
@@ -105,11 +105,11 @@ public class Database_Implementation {
     }
 
     public void filter(double fromPrice, double toPrice){
-        String query = "SELECT * FROM shop.goods WHERE cost BETWEEN ? AND ? ";
+        String query = "SELECT * FROM shop.goods WHERE cost BETWEEN ? AND ?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)){
             state.setDouble(1, fromPrice);
             state.setDouble(2, toPrice);
-            ResultSet result = state.executeQuery(query);
+            ResultSet result = state.executeQuery();
             while (result.next()) {
                 String row = result.getInt("id") + " | " + result.getInt("prodid") + " | " + result.getString("title") + " | " + result.getDouble("cost");
                 System.out.println(row);
