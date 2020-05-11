@@ -24,69 +24,73 @@ public class Main {
             Database_Implementation database = new Database_Implementation(connection, num);
             boolean execution = true;
             while (execution) {
-                 System.out.println("Введите команду");
-                 String command = scanner.next();
-
-                 switch(command) {
-                     case "/add":
-                     {
-                         String title = scanner.next();
-                         double price = scanner.nextDouble();
-                         if (price <= 0){
-                             System.out.println("Введите положительное число");
+               // scanner.next()
+                     System.out.println("Введите команду");
+                     String command = scanner.next();
+                     switch (command) {
+                         case "/add": {
+                             try {
+                                 String title = scanner.next();
+                                 double price = scanner.nextDouble();
+                                 if (price <= 0) {
+                                     System.out.println("Введите положительное число");
+                                     break;
+                                 }
+                                 database.addItem(title, price);
+                                 break;
+                             } catch (InputMismatchException e) {
+                                 System.out.println("Некорректный ввод");
+                             }
+                         }
+                         case "/delete": {
+                             String title = scanner.next();
+                             database.deleteItem(title);
                              break;
                          }
-                         database.addItem(title, price);
-                         break;
-                     }
-                     case "/delete": {
-                         String title = scanner.next();
-                         database.deleteItem(title);
-                         break;
-                     }
-                     case "/show_all": {
-                         database.showItems();
-                         break;
-                     }
-                     case "/price": {
-                         String title = scanner.next();
-                         database.showPrice(title);
-                         break;
-                     }
-                     case "/change_price":{
-                         String title = scanner.next();
-                         double newPrice = scanner.nextDouble();
-                         if (newPrice <= 0){
-                             System.out.println("Введите положительное число");
+                         case "/show_all": {
+                             database.showItems();
                              break;
                          }
-                         database.changePrice(title, newPrice);
-                         break;
-                     }
-                     case "/filter_by_price": {
-                         double fromPrice = scanner.nextDouble();
-                         double toPrice = scanner.nextDouble();
-                         if(fromPrice > toPrice){
-                             System.out.println("Неверно заданный диапазон. Первое число должно быть меньше второго");
+                         case "/price": {
+                             String title = scanner.next();
+                             database.showPrice(title);
                              break;
                          }
-                         if ((fromPrice < 0) || (toPrice < 0)){
-                             System.out.println("Цены не могут быть отрицательными");
+                         case "/change_price": {
+                             String title = scanner.next();
+                             double newPrice = scanner.nextDouble();
+                             if (newPrice <= 0) {
+                                 System.out.println("Введите положительное число");
+                                 break;
+                             }
+                             database.changePrice(title, newPrice);
                              break;
                          }
-                         database.filter(fromPrice, toPrice);
-                         break;
+                         case "/filter_by_price": {
+                             double fromPrice = scanner.nextDouble();
+                             double toPrice = scanner.nextDouble();
+                             if (fromPrice > toPrice) {
+                                 System.out.println("Неверно заданный диапазон. Первое число должно быть меньше второго");
+                                 break;
+                             }
+                             if ((fromPrice < 0) || (toPrice < 0)) {
+                                 System.out.println("Цены не могут быть отрицательными");
+                                 break;
+                             }
+                             database.filter(fromPrice, toPrice);
+                             break;
+                         }
+                         case "/off": {
+                             execution = false;
+                             System.out.println("Завершение работы программы...");
+                             break;
+                         }
+                         default: {
+                             System.out.println("Неверная команда!");
+                             scanner.nextLine();
+                             break;
+                         }
                      }
-                     case "/off": {
-                         execution = false;
-                         System.out.println("Завершение работы программы...");
-                         break;
-                     }
-                     default: {
-                         System.out.println("Неверная команда!");
-                         break;
-                     }
-                 }
             }
         }
         catch(SQLException ex) {
