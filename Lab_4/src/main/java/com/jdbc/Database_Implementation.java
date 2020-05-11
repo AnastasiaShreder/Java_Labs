@@ -20,8 +20,6 @@ public class Database_Implementation {
         } catch (SQLException ex) {
             ex.printStackTrace();   //выводит в System.err ошибки и исключения
         }
-
-
     }
 
     public void addItem(String title, double price) {
@@ -101,7 +99,6 @@ public class Database_Implementation {
         catch(SQLException ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void filter(double fromPrice, double toPrice){
@@ -135,5 +132,4 @@ public class Database_Implementation {
         String query = "TRUNCATE TABLE " + name;
         return query;
     }
-
 }
