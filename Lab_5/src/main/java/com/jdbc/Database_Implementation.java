@@ -33,7 +33,7 @@ public class Database_Implementation {
             state.setString(1, title);   // подставляем вместо ? переданный пользователем title
             ResultSet results = state.executeQuery(); //результаты запроса помещаются в сущность ResultSet - набор результатов
             if (results.next()) {     //возвоащает true, если запрос выдал несколько строк (в данном случае если в таблице есть строка с таким же title)
-                throw new ItemException() ;
+                throw new ItemException();
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -50,18 +50,17 @@ public class Database_Implementation {
         }
     }
 
-    public void deleteItem(String title) throws ItemException{
+    public void deleteItem(String title) throws ItemException {
         String select_query = "SELECT title FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(select_query)) {
             state.setString(1, title);   // подставляем вместо ? переданный пользователем title
             ResultSet results = state.executeQuery();
-            if (!results.next()){
+            if (!results.next()) {
                 throw new ItemException();
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-     catch (SQLException ex) {
-        ex.printStackTrace();
-    }
         String query = "DELETE FROM shop.goods WHERE title=?";
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setString(1, title);
@@ -90,14 +89,12 @@ public class Database_Implementation {
         try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setString(1, title);
             ResultSet result = state.executeQuery();
-            if (result.next()){
+            if (result.next()) {
                 int price = result.getInt("cost");
                 System.out.println(price);
+            } else {
+                System.out.println("Товар отсутствует");
             }
-         else
-            {
-            System.out.println("Товар отсутствует");
-        }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -110,15 +107,14 @@ public class Database_Implementation {
             state.setDouble(1, newCost);
             state.setString(2, title);
             state.executeUpdate();
-        }
-        catch(SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void filter(double fromPrice, double toPrice){
+    public void filter(double fromPrice, double toPrice) {
         String query = "SELECT * FROM shop.goods WHERE cost BETWEEN ? AND ?";
-        try (PreparedStatement state = database.getConnection().prepareStatement(query)){
+        try (PreparedStatement state = database.getConnection().prepareStatement(query)) {
             state.setDouble(1, fromPrice);
             state.setDouble(2, toPrice);
             ResultSet result = state.executeQuery();
@@ -126,24 +122,23 @@ public class Database_Implementation {
                 String row = result.getInt("id") + " | " + result.getInt("prodid") + " | " + result.getString("title") + " | " + result.getDouble("cost");
                 System.out.println(row);
             }
-        }
-        catch(SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    private String createTable(String name){
+    private String createTable(String name) {
         String query = "CREATE TABLE " + name +
-                       "(id INTEGER not NULL AUTO_INCREMENT, " +
-                       "prodid INTEGER not NULL, " +
-                       "title VARCHAR(50) not NULL, " +
-                       "cost DOUBLE not NULL, " +
-                       "PRIMARY KEY (id))";
+                "(id INTEGER not NULL AUTO_INCREMENT, " +
+                "prodid INTEGER not NULL, " +
+                "title VARCHAR(50) not NULL, " +
+                "cost DOUBLE not NULL, " +
+                "PRIMARY KEY (id))";
 
         return query;
     }
 
-    private String cleanTable(String name){
+    private String cleanTable(String name) {
         String query = "TRUNCATE TABLE " + name;
         return query;
     }
@@ -151,7 +146,7 @@ public class Database_Implementation {
     public List<Item> getList() {
         List<Item> items = new ArrayList<>();
         String query = "select * from shop.goods";
-        try(PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
@@ -166,10 +161,10 @@ public class Database_Implementation {
         return items;
     }
 
-    public  List<Item> getList(double min, double max) {
+    public List<Item> getList(double min, double max) {
         List<Item> items = new ArrayList<>();
         String query = "select * from shop.goods where cost between ? AND ?";
-        try(PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
             preparedStatement.setDouble(1, min);
             preparedStatement.setDouble(2, max);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -186,9 +181,9 @@ public class Database_Implementation {
         return items;
     }
 
-    public Item getItem (String title) {
+    public Item getItem(String title) {
         String query = "select * from shop.goods where title=?";
-        try(PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = database.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, title);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -202,5 +197,4 @@ public class Database_Implementation {
         }
         return null;
     }
-
 }
