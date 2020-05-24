@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor" prefHeight="457.0" prefWidth="795.0" style="-fx-background-image: url('/background.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jdbc.Controller">
+   
+<VBox />
+   <Button fx:id="showall_button" layoutX="21.0" layoutY="63.0" mnemonicParsing="false" onAction="#showAll" prefHeight="30.0" prefWidth="157.0" text="Показать все товары">
+      <font>
+         <Font size="14.0" />
+      </font></Button>
+   <Button fx:id="add_button" layoutX="19.0" layoutY="124.0" mnemonicParsing="false" onAction="#add" text="Добавить" />
+   <Button fx:id="delete_button" layoutX="19.0" layoutY="157.0" mnemonicParsing="false" onAction="#delete" prefHeight="26.0" prefWidth="69.0" text="Удалить" />
+   <Button fx:id="price_button" layoutX="19.0" layoutY="258.0" mnemonicParsing="false" onAction="#price" prefHeight="26.0" prefWidth="100.0" text="Показать цену" />
+   <Button fx:id="filter_button" layoutX="18.0" layoutY="303.0" mnemonicParsing="false" onAction="#filter" prefHeight="26.0" prefWidth="104.0" text="Фильтр по цене" />
+   <Button fx:id="changeprice_button" layoutX="20.0" layoutY="215.0" mnemonicParsing="false" onAction="#change" text="Изменить цену" />
+   <Button fx:id="off_button" layoutX="21.0" layoutY="400.0" mnemonicParsing="false" onAction="#off" text="Завершить работу">
+      <font>
+         <Font size="14.0" />
+      </font></Button>
+   <Label layoutX="15.0" layoutY="11.0" prefHeight="27.0" prefWidth="287.0" text="Добро пожаловать в магазин!" textAlignment="CENTER" wrapText="true">
+      <font>
+         <Font name="Felix Titling" size="20.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="0.4694656197351354" startX="1.0" startY="0.854961829331085">
+            <stops>
+               <Stop>
+                  <color>
+                     <Color red="0.5079386234283447" green="0.722825288772583" blue="0.8763157725334167" opacity="0.8600000143051147" />
+                  </color>
+               </Stop>
+               <Stop offset="1.0">
+                  <color>
+                     <Color red="1.0" green="1.0" blue="1.0" />
+                  </color>
+               </Stop>
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Label>
+   <TextArea fx:id="info" layoutX="391.0" layoutY="364.0" prefHeight="72.0" prefWidth="385.0" />
+   <TextField fx:id="add_price" layoutX="267.0" layoutY="124.0" prefHeight="26.0" prefWidth="70.0" />
+   <TextField fx:id="add_title" layoutX="127.0" layoutY="124.0" prefHeight="26.0" prefWidth="132.0" />
+   <TextField fx:id="delete_title" layoutX="127.0" layoutY="158.0" prefHeight="26.0" prefWidth="132.0" />
+   <TextField fx:id="change_price" layoutX="293.0" layoutY="215.0" prefHeight="26.0" prefWidth="84.0" />
+   <TextField fx:id="change_title" layoutX="151.0" layoutY="215.0" prefHeight="26.0" prefWidth="132.0" />
+   <TextField fx:id="show_price" layoutX="151.0" layoutY="258.0" prefHeight="26.0" prefWidth="132.0" />
+   <TextField fx:id="from" layoutX="151.0" layoutY="303.0" prefHeight="26.0" prefWidth="69.0" />
+   <TextField fx:id="to" layoutX="231.0" layoutY="303.0" prefHeight="26.0" prefWidth="69.0" />
+   <TableView fx:id="table" layoutX="413.0" layoutY="25.0" prefHeight="314.0" prefWidth="341.0">
+     <columns>
+       <TableColumn prefWidth="75.0" text="C1" />
+       <TableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TableView>
+</AnchorPane>
