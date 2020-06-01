@@ -70,6 +70,7 @@ public class Controller {
             } else {
                 info.setText("Некорректный ввод!");
             }
+            delete_title.clear();
         } catch (ItemException er) {
             info.setText("Такого товара не сущетсвует");
         }
@@ -84,6 +85,8 @@ public class Controller {
             } else {
                 info.setText("Некорректный ввод!");
             }
+            add_title.clear();
+            add_price.clear();
         } catch (ItemException er) {
             info.setText("Такой товар уже существует");
         } catch (NullPointerException | NumberFormatException e) {
@@ -104,19 +107,26 @@ public class Controller {
         } else {
             info.setText("Неверный формат цены!");
         }
+        show_price.clear();
     }
 
     @FXML
     public void filter() {
         try {
             if ((Double.parseDouble(from.getText()) < Double.parseDouble(to.getText()))
-                    && Double.parseDouble(from.getText()) > 0 && Double.parseDouble(to.getText()) > 0) {
+                    && Double.parseDouble(from.getText()) >= 0 && Double.parseDouble(to.getText()) >= 0)
+            {
                 info.clear();
                 double min = Double.parseDouble(from.getText());
                 double max = Double.parseDouble(to.getText());
                 ObservableList<Item> observableList = FXCollections.observableList(Main.DbImplement.getList(min, max));
                 table.setItems(observableList);
             }
+            else {
+                info.setText("Неверный формат цены!");
+            }
+            from.clear();
+            to.clear();
         } catch (NullPointerException | NumberFormatException e) {
             info.setText("Неверный формат цены!");
         }
@@ -134,6 +144,8 @@ public class Controller {
             } else {
                 info.setText("Некорректный ввод!");
             }
+            change_price.clear();
+            change_title.clear();
         } catch (NullPointerException | NumberFormatException e) {
             info.setText("Неверный формат цены!");
         }
